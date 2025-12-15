@@ -9,7 +9,6 @@ from .utils import shorten_url
 
 
 class ShortenURL(APIView):
-
     def post(self, request):
         serializer = ShortenerInputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

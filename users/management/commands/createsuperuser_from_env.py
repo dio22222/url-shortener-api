@@ -6,18 +6,26 @@ AUTH_USER_MODEL = get_user_model()
 
 
 class Command(BaseCommand):
-    help = "Created superuser account from environment variables"
+    help = "Create superuser account from environment variables"
 
     def handle(self, *args, **kwargs):
-        username = os.environ.get("_USERNAME")
+        superuser_exists = AUTH_USER_MODEL.objects.filter(is_superuser=True).exists()
+
+        if superuser_exists:
+            self.stdout.write(
+                self.style.NOTICE("Skipping superuser creation: already exists")
+            )
+            return
+
+        username = os.environ.get("USERNAME")
         password = os.environ.get("PASSWORD")
 
         if not username or not password:
             raise CommandError("Cannot create superuser without username and password")
 
-        exists = AUTH_USER_MODEL.objects.filter(username=username).exists()
+        username_exists = AUTH_USER_MODEL.objects.filter(username=username).exists()
 
-        if exists:
+        if username_exists:
             raise CommandError(f"User with the username: {username} already exists")
 
         AUTH_USER_MODEL.objects.create_superuser(username=username, password=password)

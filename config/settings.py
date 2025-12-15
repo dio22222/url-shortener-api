@@ -1,17 +1,14 @@
+import os
 from pathlib import Path
-import environ, os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-
-SECRET_KEY = env(
+SECRET_KEY = os.environ.get(
     "SECRET_KEY",
-    default="django-insecure-+)th3ggkm$u64bp01fuyawb*4z1!q=xplnt*@g$@%tg6uw04b0",
+    "django-insecure-+)th3ggkm$u64bp01fuyawb*4z1!q=xplnt*@g$@%tg6uw04b0",
 )
 
-DEBUG = env("DEBUG", default="False").lower() == "true"
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = []
 
@@ -60,7 +57,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "data/db.sqlite3",
     }
 }
 
@@ -79,7 +76,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_ENABLED = env("AUTH_ENABLED", default="True").lower() == "true"
+AUTH_ENABLED = os.environ.get("AUTH_ENABLED", "True").lower() == "true"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -110,4 +107,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-DOMAIN_NAME = env("DOMAIN_NAME", default="example.com")
+DOMAIN_NAME = os.environ.get("DOMAIN_NAME", "example.com")
