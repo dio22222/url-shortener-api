@@ -1,5 +1,5 @@
-# **url-shortener-web**
-A plug-and-play Web service for hosting your own URL shortener with ease!
+# **url-shortener-api**
+A plug-and-play API for hosting your own URL shortener with ease!
 
 ## Motivation 💡
 I recently started using **Twilio** for sending SMS messages that contain links for my online business. The problem? The links are long, resulting in more SMS segments, which in turn results in higher prices for the messages I send.
